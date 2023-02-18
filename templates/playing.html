@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>What's Playing</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <style>
+        body {
+  font-family: 'Roboto', sans-serif;
+}
+        #current-song {
+            background-color: #333;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        #current-song img {
+            width: 100px;
+            margin-right: 10px;
+        }
+        #current-song p {
+            margin: 0;
+        }
+        #current-song .song-name {
+            font-size: 24px;
+        }
+        #current-song .artist-name {
+            font-size: 18px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div id="current-song">
+        <img src=""/>
+        <div>
+            <p class="song-name">No songs playing</p>
+            <p class="artist-name"></p>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function() {
+            // Function to update the current song data on the page
+            function updateCurrentSong() {
+                $.ajax({
+                    url: '/current_song',
+                    success: function(data) {
+                        // Extract the song data from the response
+                        var songName = data.name;
+                        var songArtist = data.artist;
+                        var songCover = data.cover;
+                        // Update the page with the song data
+                        $('#current-song img').attr('src', songCover);
+                        $('#current-song .song-name').text(songName);
+                        $('#current-song .artist-name').text(songArtist);
+                    }
+                });
+            }
+
+            // Periodically update the current song data on the page
+            setInterval(updateCurrentSong, 1000);
+        });
+    </script>
+</body>
+</html>
